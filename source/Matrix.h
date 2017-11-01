@@ -3,9 +3,10 @@
 
 #include <stdbool.h>//type definition for bool
 #include <stdlib.h>//#define NULL and malloc
-//#include <assert.h>//assertions
+#include <assert.h>//assertions
+#include <stdint.h>
 
-typedef char Uint8;//a character will be an unsigned 8 bit integer
+typedef uint8_t Uint8;//a character will be an unsigned 8 bit integer
 
 /*
 Matrix is a 2-D, dynamically allocated character(Uint8) array
