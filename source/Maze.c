@@ -248,28 +248,32 @@ void tunnelMaze(Matrix* m, int* x, int* y)
 		case 0://north
 			if (Matrix_valid(m, tX, tY - 1))
 			{
-				removeWall(m, &tX, &tY, kNorth);
+				if (!(*Matrix_get(m, tX, tY - 1) & kExplored))//remove the wall only if the square hasn't been explored
+					removeWall(m, &tX, &tY, kNorth);
 				tY--;
 			}
 			break;
 		case 1://east
 			if (Matrix_valid(m, tX + 1, tY))
 			{
-				removeWall(m, &tX, &tY, kEast);
+				if (!(*Matrix_get(m, tX + 1, tY) & kExplored))
+					removeWall(m, &tX, &tY, kEast);
 				tX++;
 			}
 			break;
 		case 2://south
 			if (Matrix_valid(m, tX, tY + 1))
 			{
-				removeWall(m, &tX, &tY, kSouth);
+				if (!(*Matrix_get(m, tX, tY + 1) & kExplored))
+					removeWall(m, &tX, &tY, kSouth);
 				tY++;
 			}
 			break;
 		default://west
 			if (Matrix_valid(m, tX - 1, tY))
 			{
-				removeWall(m, &tX, &tY, kWest);
+				if (!(*Matrix_get(m, tX - 1, tY) & kExplored))
+					removeWall(m, &tX, &tY, kWest);
 				tX--;;
 			}
 			break;
