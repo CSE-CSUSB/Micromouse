@@ -1,0 +1,40 @@
+The software simulation part of the Micromouse project are a collection of
+programs meant to be executed on a personal computer:
+
+* The maze editor: A graphical program for editing and viewing NxN mazes and 
+maze paths. It should be capable of the following:
+	* Creating a new maze starting from an empty square of a specified size
+	* Importing an existing maze from a CMF file
+	* Editing the maze by clicking on the sides of cells to insert or 
+	delete walls.
+	* Coloring the cells from a list of cell indices specified by the user
+	for visualizing a cell path.
+	* Exporting the maze to a CMF file.
+CMF is the format we will use for storing a maze into a file or string, it is
+described in (../documents/common_maze_format.pdf).
+
+* The maze traverser: A command-line program that takes as input CMF data 
+and outputs a list of cell indices for traversing the whole maze in the 
+shortest path-length possible starting from the Start cell (the last cell 
+visited does not need to be the Goal cell).
+
+* The maze pathfinder: A command-line program that takes as input CMF data 
+and outputs a list of cell indices for the shortest path from the Start cell
+to the Goal cell.
+
+We will be ready to program the bot when we establish what traversing and 
+pathfinding algorithms we will use.
+
+I have organized folders with our names which our individual work will go 
+into. Make a folder with your last name if one is not present. When we are
+ready, we should store our compiled binaries into the same directory as
+this text file. The compiled binaries should run on either windows or linux
+(or both).
+
+Below this line, write your name and which of these programs you will decide 
+to work on at the moment. It is ok for multiple people to work together or 
+in competition on the same program.
+=============================================================================
+
+Mark Swoope: The maze editor.
+
