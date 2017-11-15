@@ -14,7 +14,7 @@ void generateMaze(Matrix* m, int* x, int* y)
 	
 	zeroMaze(m);//zero the entire matrix
 	
-	scrambleMaze(m);//scramble the maze up, randomly
+	//scrambleMaze(m);//scramble the maze up, randomly
 	
 	createOuterWalls(m);
 	
@@ -31,7 +31,7 @@ void zeroMaze(Matrix* m)
 	//instead of a nested loop using Matrix_get()
 	
 	for (int i = 0, j = (int)Matrix_size(m); i < j; ++i)
-		m->mData[i] = 0;
+		m->mData[i] = 15;
 }
 
 void chooseCorner(Matrix* m, int* x, int* y)
@@ -65,7 +65,7 @@ void scrambleMaze(Matrix* m)
 	
 	for(int i = 0, j = Matrix_width(m); i < j; ++i)
 		for(int k = 0, l = Matrix_height(m); k < l; ++k)
-			setWall(m, &i, &k, rand() % 8 + 8);
+			setWall(m, &i, &k, rand() % 16);
 }
 
 void addWall(Matrix* m, int* x, int* y, Tile t)
@@ -287,10 +287,11 @@ void tunnelMaze(Matrix* m, int* x, int* y)
 void drawMaze(Matrix* m, int* x, int* y)
 {
 	char vWall = '\xBA';//decimal 186 ║
-	char hWall = '\xCD';//decimal 205 ═
+	char hWall[] = {'\xCD','\xCD','\xCD','\0'};//decimal 205 ═, put three in a row
 	char cross = '\xCE';//decimal 206 ╬
 	char space = ' ';
-	char start = 'x';
+	char space3[] ={' ',' ',' ','\0'};
+	char start[] = {' ','x',' ','\0'};
 	
 	/*
 	since the function is drawing in text, it must be read horizontally first, line by line, left to right.
@@ -313,8 +314,8 @@ void drawMaze(Matrix* m, int* x, int* y)
 			
 			//if there is a north wall, draw a horizontal wall
 			if (*Matrix_get(m,k,i) & kNorth)
-				printf("%c", hWall);
-			else printf("%c", space);
+				printf("%s", hWall);
+			else printf("%s", space3);
 			
 		}
 		
@@ -332,8 +333,8 @@ void drawMaze(Matrix* m, int* x, int* y)
 			//if the current value is the starting position
 			//x && yy && is to check these arent null pointers
 			if (x && y && *x == k && *y == i)
-				printf("%c", start);
-			else printf("%c", space);
+				printf("%s", start);
+			else printf("%s", space3);
 		}
 		
 		//assuming the maze is closed on all edges
@@ -346,19 +347,19 @@ void drawMaze(Matrix* m, int* x, int* y)
 	int k = Matrix_height(m) - 1;
 	for (int i = 0, j = Matrix_width(m); i < j; ++i)
 	{
-				//condition for a cross section, if there is a wall either south or east
-			if (*Matrix_get(m, i, k) & (kSouth | kEast))
-				printf("%c", cross);
-			//if the square above has a wall, you need a cross
-			else if(Matrix_valid(m, i, k)
-				&& *Matrix_get(m, i, k - 1) & (kSouth | kWest))
-				printf("%c", cross);
-			else printf("%c", space);
-			
-			//if there is a south wall, draw a horizontal wall
-			if (*Matrix_get(m,i,k) & kSouth)
-				printf("%c", hWall);
-			else printf("%c", space);
+		//condition for a cross section, if there is a wall either south or east
+		if (*Matrix_get(m, i, k) & (kSouth | kEast))
+			printf("%c", cross);
+		//if the square above has a wall, you need a cross
+		else if(Matrix_valid(m, i, k)
+			&& *Matrix_get(m, i, k - 1) & (kSouth | kWest))
+			printf("%c", cross);
+		else printf("%c", space3);
+		
+		//if there is a south wall, draw a horizontal wall
+		if (*Matrix_get(m,i,k) & kSouth)
+			printf("%s", hWall);
+		else printf("%s", space3);
 	}
 	printf("%c", cross);
 	

@@ -31,7 +31,9 @@ typedef enum {
 //x and y are the indices of the starting corner of the maze
 void generateMaze(Matrix* m, int* x, int* y);
 
-//set the entire maze to 0, an empty canvas
+//set the entire maze to 15, an empty canvas
+//instead of setting every value to 0, 15 allows the generator
+//to tunnel through the squares without causing accidental 2x2 squares
 void zeroMaze(Matrix* m);
 
 //randomly chooses one of 4 corners and returns index where corner will be
