@@ -15,6 +15,9 @@ int main(int argc, char* args[])
 	int sx = 0,sy = 0;//starting point
 	Matrix_Matrix(&grid, tilesX, tilesY);
 	generateMaze(&grid, &sx, &sy);
+
+	drawMaze(&grid, &sx, &sy);
+	/*
 	for (int i = 0; i < tilesX; ++i)
 	{
 		for(int j = 0; j < tilesY; ++j)
@@ -23,6 +26,7 @@ int main(int argc, char* args[])
 		}
 		printf("\n");
 	}
+	*/
 	printf("starting cell ( %d , %d )\n", sx, sy);
 	
 	

@@ -69,4 +69,8 @@ void createFinish(Matrix* m, bool center);
 //for the MicroMouse from the starting corner to the finish
 void tunnelMaze(Matrix* m, int* x, int* y);
 
+//draw the given maze using ASCII characters
+//x and y are the starting position, will be marked on the maze
+void drawMaze(Matrix* m, int* x, int* y);
+
 #endif

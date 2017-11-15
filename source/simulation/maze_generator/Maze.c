@@ -283,3 +283,84 @@ void tunnelMaze(Matrix* m, int* x, int* y)
 	for (int i = 0, j = (int)Matrix_size(m); i < j; ++i)
 		m->mData[i] &= ~kExplored; //set all squares to unexplored
 }
+
+void drawMaze(Matrix* m, int* x, int* y)
+{
+	char vWall = '\xBA';//decimal 186 ║
+	char hWall = '\xCD';//decimal 205 ═
+	char cross = '\xCE';//decimal 206 ╬
+	char space = ' ';
+	char start = 'x';
+	
+	/*
+	since the function is drawing in text, it must be read horizontally first, line by line, left to right.
+	a nested loop will do the trick, where x is the inner loop, y is the outer loop.
+	*/
+	for(int i = 0, j = Matrix_height(m); i < j; ++i)
+	{
+		//this loop deals with the horizontal walls, drawn from left to right
+		//it also draws cross sections of walls if they exist
+		for (int k = 0, l = Matrix_width(m); k < l; ++k)
+		{
+			//condition for a cross section, if there is a wall either north or west
+			if (*Matrix_get(m, k, i) & (kNorth | kWest))
+				printf("%c", cross);
+			//if the square above has a wall, you need a cross
+			else if(Matrix_valid(m, k, i)
+				&& *Matrix_get(m, k, i - 1) & (kSouth | kWest))
+				printf("%c", cross);
+			else printf("%c", space);
+			
+			//if there is a north wall, draw a horizontal wall
+			if (*Matrix_get(m,k,i) & kNorth)
+				printf("%c", hWall);
+			else printf("%c", space);
+			
+		}
+		
+		//assuming the maze is closed on all edges
+		printf("%c", cross);
+		printf("\n");
+		
+		for (int k = 0, l = Matrix_width(m); k < l; ++k)//this loop deals with the vertical walls, drawn from left to right
+		{
+			//if there is a north wall, draw a horizontal wall
+			if (*Matrix_get(m, k, i) & kWest)
+				printf("%c", vWall);
+			else printf("%c", space);
+			
+			//if the current value is the starting position
+			//x && yy && is to check these arent null pointers
+			if (x && y && *x == k && *y == i)
+				printf("%c", start);
+			else printf("%c", space);
+		}
+		
+		//assuming the maze is closed on all edges
+		printf("%c", vWall);
+		printf("\n");
+	}
+	
+	//need one more loop just for the bottom row of the maze
+	
+	int k = Matrix_height(m) - 1;
+	for (int i = 0, j = Matrix_width(m); i < j; ++i)
+	{
+				//condition for a cross section, if there is a wall either south or east
+			if (*Matrix_get(m, i, k) & (kSouth | kEast))
+				printf("%c", cross);
+			//if the square above has a wall, you need a cross
+			else if(Matrix_valid(m, i, k)
+				&& *Matrix_get(m, i, k - 1) & (kSouth | kWest))
+				printf("%c", cross);
+			else printf("%c", space);
+			
+			//if there is a south wall, draw a horizontal wall
+			if (*Matrix_get(m,i,k) & kSouth)
+				printf("%c", hWall);
+			else printf("%c", space);
+	}
+	printf("%c", cross);
+	
+	printf("\n");
+}
