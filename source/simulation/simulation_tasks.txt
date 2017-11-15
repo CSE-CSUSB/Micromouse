@@ -25,16 +25,13 @@ to the Goal cell.
 We will be ready to program the bot when we establish what traversing and 
 pathfinding algorithms we will use.
 
-I have organized folders with our names which our individual work will go 
-into. Make a folder with your last name if one is not present. When we are
-ready, we should store our compiled binaries into the same directory as
-this text file. The compiled binaries should run on either windows or linux
-(or both).
+Each folder contains the source of a program (such as a maze generator, 
+maze editor, maze pathfinder). Name the folder of the program you wish to 
+work on to the generic name of that program (such as "maze_traverser" or 
+"maze_pathfinder"). If someone else is already working on it, you can either
+work together with that person or make your own folder with the same name 
+appended with a number (such as "maze_traverser2" or "maze_pathfinder2").
 
-Below this line, write your name and which of these programs you will decide 
-to work on at the moment. It is ok for multiple people to work together or 
-in competition on the same program.
-=============================================================================
-
-Mark Swoope: The maze editor.
+Your programs can use any programming language as long as they're 
+cross-platform.
 
