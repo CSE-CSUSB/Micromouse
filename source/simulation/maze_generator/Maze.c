@@ -24,6 +24,11 @@ void generateMaze(Matrix* m, int* x, int* y)
 	
 	tunnelMaze(m, x, y);
 	
+	setFinishExplored(m, x, y);
+	
+	for(int i = 0; i < 8; ++i)
+		tunnelMaze(m, x, y);
+	
 }
 
 void zeroMaze(Matrix* m)
@@ -170,6 +175,22 @@ bool checkFinish(Matrix* m, int* x, int* y)
 	return false;
 }
 
+void setFinishExplored(Matrix* m)
+{
+	for(int i = 0, j = Matrix_height(m); i < j; ++i)
+		for (int k = 0, l = Matrix_width(m); k < l; ++k)
+		{
+			if (checkFinish(m, &k, &i))
+				*Matrix_get(m, k, i) |= kExplored;
+		}
+}
+
+void clearExplore(Matrix* m)
+{
+	for (int i = 0, j = (int)Matrix_size(m); i < j; ++i)
+			m->mData[i] &= ~kExplored; //set all squares to unexplored
+}
+
 void createOuterWalls(Matrix* m)
 {
 	int j = Matrix_width(m);
@@ -228,10 +249,7 @@ void createFinish(Matrix* m, bool center)
 }
 
 void tunnelMaze(Matrix* m, int* x, int* y)
-{
-	for (int i = 0, j = (int)Matrix_size(m); i < j; ++i)
-		m->mData[i] &= ~kExplored; //set all squares to unexplored
-	
+{	
 	//temporary x and y values
 	int tX = *x;
 	int tY = *y;
@@ -279,9 +297,6 @@ void tunnelMaze(Matrix* m, int* x, int* y)
 			break;
 		}
 	}
-	
-	for (int i = 0, j = (int)Matrix_size(m); i < j; ++i)
-		m->mData[i] &= ~kExplored; //set all squares to unexplored
 }
 
 void drawMaze(Matrix* m, int* x, int* y)
@@ -307,8 +322,8 @@ void drawMaze(Matrix* m, int* x, int* y)
 			if (*Matrix_get(m, k, i) & (kNorth | kWest))
 				printf("%c", cross);
 			//if the square above has a wall, you need a cross
-			else if(Matrix_valid(m, k, i)
-				&& *Matrix_get(m, k, i - 1) & (kSouth | kWest))
+			else if(Matrix_valid(m, k - 1, i - 1)
+				&& *Matrix_get(m, k - 1, i - 1) & (kSouth | kEast))
 				printf("%c", cross);
 			else printf("%c", space);
 			

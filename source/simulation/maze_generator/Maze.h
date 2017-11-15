@@ -57,6 +57,14 @@ void setWall(Matrix* m, int* x, int* y, Tile t);
 //returns true if the current indices are within a 2x2 square
 bool checkFinish(Matrix* m, int* x, int* y);
 
+//after the first tunnel, the finish needs to be set to explores,
+//to allow only one entry hole to the finish from the outside
+//if tunneling were to continue
+void setFinishExplored(Matrix* m);
+
+//set all squares to unexplored
+void clearExplore(Matrix* m);
+
 //Make the outer walls and corners
 void createOuterWalls(Matrix* m);
 
