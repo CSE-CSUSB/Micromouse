@@ -10,6 +10,7 @@ static micromouse::maze maze;
 static micromouse::maze::position_type current_position;
 static std::string maze_filename;
 static std::pair<int, int> window_min, window_max;
+static std::vector<micromouse::maze::position_type> maze_path;
 
 static void initialize();
 static void input();
@@ -44,12 +45,12 @@ static void draw()
 	auto draw_menu =
 	[&]()
 	{
-		mvaddstr(window_min.first, window_min.second,
-			"F1: NEW | F2: OPEN | F3: SAVE | F4: SAVE AS |"
-			" F5: EXIT");
-		mvaddstr(window_min.first + 1, window_min.second,
-			"WASD: MOVE | IJKL: TOGGLE WALL | O: SET START |"
-			" P: SET GOAL");
+		mvprintw(window_min.first, window_min.second,
+			"%-15s%-15s%-15s%-15s%-15s", "F1: NEW", "F2: OPEN",
+			"F3: SAVE", "F4: SAVE AS", "F5: EXIT");
+		mvprintw(window_min.first + 1, window_min.second,
+			"%-15s%-15s%-15s%-15s%-15s", "1: SET START", "2: SET GOAL",
+			"3: VIEW PATH", "WASD: MOVE", "IJKL: EDIT WALL");
 	};
 
 	auto draw_maze =
@@ -60,13 +61,13 @@ static void draw()
 		for (p.first = 0; p.first < maze.width(); ++p.first) {
 			for (p.second = 0; p.second < maze.width();
 							++p.second) {
-				move(window_min.first + 3 + p.first * 2,
+				move(window_min.first + 4 + p.first * 2,
 					window_min.second + p.second * 4);
 				if (maze[p].test(micromouse::WALL_TOP))
 					addstr("+---+");
 				else
 					addstr("+   +");
-				move(window_min.first + 4 + p.first * 2,
+				move(window_min.first + 5 + p.first * 2,
 					window_min.second + p.second * 4);
 				if (maze[p].test(micromouse::WALL_LEFT))
 					addstr("|   ");
@@ -76,7 +77,7 @@ static void draw()
 					addch('|');
 				else
 					addch(' ');
-				move(window_min.first + 5 + p.first * 2,
+				move(window_min.first + 6 + p.first * 2,
 					window_min.second + p.second * 4);
 				if (maze[p].test(micromouse::WALL_BOTTOM))
 					addstr("+---+");
@@ -89,13 +90,22 @@ static void draw()
 	auto draw_marker =
 	[&](const micromouse::maze::position_type& p, int ch)
 	{
-		mvaddch(window_min.first + 4 + p.first * 2,
+		mvaddch(window_min.first + 5 + p.first * 2,
 			window_min.second + 2 + p.second * 4, ch);
+	};
+
+	auto draw_maze_path =
+	[&]()
+	{
+		for (const auto& p : maze_path) {
+			draw_marker(p, 'o');
+		}
 	};
 
 	draw_menu();
 	if (maze.width() != 0) {
 		draw_maze();
+		if (!maze_path.empty()) draw_maze_path();
 		draw_marker(maze.start(), 'S');
 		draw_marker(maze.goal(), 'G');
 		draw_marker(current_position, 'X');
@@ -107,11 +117,11 @@ static std::string prompt(const std::string& message)
 {
 	char buffer[80];
 
-	mvaddstr(window_min.first + 2, window_min.second, message.c_str());
+	mvaddstr(window_min.first + 3, window_min.second, message.c_str());
 	nocbreak();
 	echo();
 	getnstr(buffer, sizeof(buffer) - 1);
-	move(window_min.first + 2, window_min.second);
+	move(window_min.first + 3, window_min.second);
 	clrtoeol();
 	cbreak();
 	noecho();
@@ -255,16 +265,43 @@ static const std::map< int, std::function<void()> > input_handlers{{
 			}
 		}
 	},
-	{ 'o',
+	{ '1',
 		[&]()
 		{
 			maze.start(current_position);
 		}
 	},
-	{ 'p',
+	{ '2',
 		[&]()
 		{
 			maze.goal(current_position);
+		}
+	},
+	{ '3',
+		[&]()
+		{
+			std::string filename;
+			std::ifstream ifs;
+			micromouse::maze::size_type length, index;
+			micromouse::maze::position_type position;
+
+			if (!maze_path.empty()) {
+				maze_path.clear();
+				return;
+			}
+			filename = prompt("Enter filename: ");
+			if (filename.empty()) return;
+			ifs.open(filename);
+			if (!ifs.is_open()) return;
+			maze_path.clear();
+			ifs >> length;
+			for (std::size_t i = 0; i < length; ++i) {
+				ifs >> index;
+				position.first = index / maze.width();
+				position.second = index % maze.width();
+				maze_path.push_back(position);
+			}
+			ifs.close();
 		}
 	}
 }};
