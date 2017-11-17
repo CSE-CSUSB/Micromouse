@@ -5,6 +5,8 @@ CMF Maze Editor, by Mark Swoope
 A curses-based program for editing CMF mazes.
 Can create, open and save CMF files.
 
-Requires the ncurses library to be installed.
+Requirements for compiling: C++11 distribution, ncurses library.
 
 To compile, run the "make" command on a Linux or Unix-like system.
+This program compiles and runs successfully on the Linux lab computers in CSUSB.
+It is recommended that you run this program with a fullscreen terminal.
