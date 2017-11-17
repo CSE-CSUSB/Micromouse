@@ -6,11 +6,11 @@
 #include <utility>
 #include <cstdlib>
 
-micromouse::maze maze;
-std::vector<micromouse::maze::position_type> path;
-micromouse::maze::position_type position;
-std::string maze_filename;
-std::pair<int ,int> window_min;
+static micromouse::maze maze;
+static std::vector<micromouse::maze::position_type> path;
+static micromouse::maze::position_type position;
+static std::string maze_filename;
+static std::pair<int ,int> window_min;
 
 static void draw_menu()
 {
@@ -85,7 +85,7 @@ static void draw()
 	refresh();
 }
 
-std::string prompt(const std::string& message)
+static std::string prompt(const std::string& message)
 {
 	char buffer[80];
 
