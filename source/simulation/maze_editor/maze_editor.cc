@@ -190,7 +190,7 @@ static void command_wall_left()
 	maze[position].flip(micromouse::WALL_LEFT);
 	if (position.second > 0) {
 		maze[{position.first, position.second - 1}].flip(
-					micromouse::WALL_BOTTOM);
+					micromouse::WALL_RIGHT);
 	}
 }
 
