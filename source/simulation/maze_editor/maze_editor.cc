@@ -6,6 +6,11 @@
 #include <utility>
 #include <cstdlib>
 
+#define DISPLAY_BLANK (' ')
+#define DISPLAY_CORNER (ACS_BULLET)
+#define DISPLAY_HORIZONTAL (ACS_HLINE)
+#define DISPLAY_VERTICAL (ACS_VLINE)
+
 static micromouse::maze maze;
 static std::vector<micromouse::maze::position_type> path;
 static micromouse::maze::position_type position;
@@ -22,30 +27,135 @@ static void draw_menu()
 		"3: VIEW PATH", "WASD: MOVE", "IJKL: EDIT WALL");
 }
 
-static void draw_cell(const micromouse::maze::position_type& p)
+static void draw_cell_wall_top(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 4 + p.first * 2,
+		window_min.second + p.second * 4 + 1);
+	if (maze[p].walls.test(micromouse::WALL_TOP)) {
+		addch(DISPLAY_HORIZONTAL);
+		addch(DISPLAY_HORIZONTAL);
+		addch(DISPLAY_HORIZONTAL);
+	} else {
+		addch(DISPLAY_BLANK);
+		addch(DISPLAY_BLANK);
+		addch(DISPLAY_BLANK);
+	}
+}
+
+static void draw_cell_wall_left(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 5 + p.first * 2,
+		window_min.second + p.second * 4);
+	if (maze[p].walls.test(micromouse::WALL_LEFT)) {
+		addch(DISPLAY_VERTICAL);
+	} else {
+		addch(DISPLAY_BLANK);
+	}
+}
+
+static void draw_cell_wall_right(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 5 + p.first * 2,
+		window_min.second + p.second * 4 + 4);
+	if (maze[p].walls.test(micromouse::WALL_RIGHT)) {
+		addch(DISPLAY_VERTICAL);
+	} else {
+		addch(DISPLAY_BLANK);
+	}
+}
+
+static void draw_cell_wall_bottom(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 6 + p.first * 2,
+		window_min.second + p.second * 4 + 1);
+	if (maze[p].walls.test(micromouse::WALL_BOTTOM)) {
+		addch(DISPLAY_HORIZONTAL);
+		addch(DISPLAY_HORIZONTAL);
+		addch(DISPLAY_HORIZONTAL);
+	} else {
+		addch(DISPLAY_BLANK);
+		addch(DISPLAY_BLANK);
+		addch(DISPLAY_BLANK);
+	}
+}
+
+static void draw_cell_middle(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 5 + p.first * 2,
+		window_min.second + p.second * 4 + 1);
+	addch(DISPLAY_BLANK);
+	addch(DISPLAY_BLANK);
+	addch(DISPLAY_BLANK);
+}
+
+static int cell_corner_to_character(const micromouse::cell::cross_type& c)
+{
+	std::string s;
+
+	s = c.to_string();
+	if (s == "0000") return ACS_BULLET;
+	else if (s == "0001") return ' '; //ACS_BULLET;//ACS_VLINE;
+	else if (s == "0010") return ' '; //ACS_BULLET;//ACS_HLINE;
+	else if (s == "0011") return ACS_LLCORNER;
+	else if (s == "0100") return ' '; //ACS_BULLET;//ACS_VLINE;
+	else if (s == "0101") return ACS_VLINE;
+	else if (s == "0110") return ACS_ULCORNER;
+	else if (s == "0111") return ACS_LTEE;
+	else if (s == "1000") return ' '; //ACS_BULLET;//ACS_HLINE;
+	else if (s == "1001") return ACS_LRCORNER;
+	else if (s == "1010") return ACS_HLINE;
+	else if (s == "1011") return ACS_BTEE;
+	else if (s == "1100") return ACS_URCORNER;
+	else if (s == "1101") return ACS_RTEE;
+	else if (s == "1110") return ACS_TTEE;
+	else if (s == "1111") return ACS_PLUS;
+	return ACS_BULLET;
+}
+
+static void draw_cell_upper_left_corner(const micromouse::maze::position_type& p)
 {
 	move(window_min.first + 4 + p.first * 2,
 		window_min.second + p.second * 4);
-	if (maze[p].test(micromouse::WALL_TOP))
-		addstr("+---+");
-	else
-		addstr("+   +");
-	move(window_min.first + 5 + p.first * 2,
-		window_min.second + p.second * 4);
-	if (maze[p].test(micromouse::WALL_LEFT))
-		addstr("|   ");
-	else
-		addstr("    ");
-	if (maze[p].test(micromouse::WALL_RIGHT))
-		addch('|');
-	else
-		addch(' ');
+	addch(cell_corner_to_character(maze[p].corners[micromouse::CORNER_UPPER_LEFT]));
+}
+
+static void draw_cell_upper_right_corner(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 4 + p.first * 2,
+		window_min.second + p.second * 4 + 4);
+	addch(cell_corner_to_character(maze[p].corners[micromouse::CORNER_UPPER_RIGHT]));
+}
+
+static void draw_cell_lower_left_corner(const micromouse::maze::position_type& p)
+{
 	move(window_min.first + 6 + p.first * 2,
-		window_min.second + p.second * 4);
-	if (maze[p].test(micromouse::WALL_BOTTOM))
-		addstr("+---+");
-	else
-		addstr("+   +");
+		window_min.second + p.second * 4 + 4);
+	addch(cell_corner_to_character(maze[p].corners[micromouse::CORNER_LOWER_LEFT]));
+}
+
+static void draw_cell_lower_right_corner(const micromouse::maze::position_type& p)
+{
+	move(window_min.first + 6 + p.first * 2,
+		window_min.second + p.second * 4 + 4);
+	addch(cell_corner_to_character(maze[p].corners[micromouse::CORNER_LOWER_RIGHT]));
+}
+
+static void draw_cell_corners(const micromouse::maze::position_type& p)
+{
+	draw_cell_upper_left_corner(p);
+	draw_cell_upper_right_corner(p);
+	draw_cell_lower_left_corner(p);
+	draw_cell_lower_right_corner(p);
+}
+
+static void draw_cell(const micromouse::maze::position_type& p)
+{
+	draw_cell_corners(p);
+	draw_cell_wall_top(p);
+	draw_cell_wall_left(p);
+	draw_cell_middle(p);
+	draw_cell_wall_right(p);
+	draw_cell_wall_bottom(p);
 }
 
 static void draw_maze()
@@ -113,6 +223,7 @@ static void command_new()
 	position = { 0, 0 };
 	maze.start(position);
 	maze.goal(position);
+	maze_filename.clear();
 }
 
 static void command_open()
@@ -178,38 +289,42 @@ static void command_move_right()
 
 static void command_wall_up()
 {
-	maze[position].flip(micromouse::WALL_TOP);
+	maze[position].walls.flip(micromouse::WALL_TOP);
 	if (position.first > 0) {
-		maze[{position.first - 1, position.second}].flip(
+		maze[{position.first - 1, position.second}].walls.flip(
 					micromouse::WALL_BOTTOM);
 	}
+	maze.update_all_corners();
 }
 
 static void command_wall_left()
 {
-	maze[position].flip(micromouse::WALL_LEFT);
+	maze[position].walls.flip(micromouse::WALL_LEFT);
 	if (position.second > 0) {
-		maze[{position.first, position.second - 1}].flip(
+		maze[{position.first, position.second - 1}].walls.flip(
 					micromouse::WALL_RIGHT);
 	}
+	maze.update_all_corners();
 }
 
 static void command_wall_down()
 {
-	maze[position].flip(micromouse::WALL_BOTTOM);
+	maze[position].walls.flip(micromouse::WALL_BOTTOM);
 	if (position.first < maze.width() - 1) {
-		maze[{position.first + 1, position.second}].flip(
+		maze[{position.first + 1, position.second}].walls.flip(
 						micromouse::WALL_TOP);
 	}
+	maze.update_all_corners();
 }
 
 static void command_wall_right()
 {
-	maze[position].flip(micromouse::WALL_RIGHT);
+	maze[position].walls.flip(micromouse::WALL_RIGHT);
 	if (position.second < maze.width() - 1) {
-		maze[{position.first, position.second + 1}].flip(
+		maze[{position.first, position.second + 1}].walls.flip(
 						micromouse::WALL_LEFT);
 	}
+	maze.update_all_corners();
 }
 
 static void command_set_start()
