@@ -6,11 +6,6 @@
 #include <utility>
 #include <cstdlib>
 
-#define DISPLAY_BLANK (' ')
-#define DISPLAY_CORNER (ACS_BULLET)
-#define DISPLAY_HORIZONTAL (ACS_HLINE)
-#define DISPLAY_VERTICAL (ACS_VLINE)
-
 static micromouse::maze maze;
 static std::vector<micromouse::maze::position_type> path;
 static micromouse::maze::position_type position;
@@ -32,13 +27,13 @@ static void draw_cell_wall_top(const micromouse::maze::position_type& p)
 	move(window_min.first + 4 + p.first * 2,
 		window_min.second + p.second * 4 + 1);
 	if (maze[p].walls.test(micromouse::WALL_TOP)) {
-		addch(DISPLAY_HORIZONTAL);
-		addch(DISPLAY_HORIZONTAL);
-		addch(DISPLAY_HORIZONTAL);
+		addch(ACS_HLINE);
+		addch(ACS_HLINE);
+		addch(ACS_HLINE);
 	} else {
-		addch(DISPLAY_BLANK);
-		addch(DISPLAY_BLANK);
-		addch(DISPLAY_BLANK);
+		addch(' ');
+		addch(' ');
+		addch(' ');
 	}
 }
 
@@ -47,9 +42,9 @@ static void draw_cell_wall_left(const micromouse::maze::position_type& p)
 	move(window_min.first + 5 + p.first * 2,
 		window_min.second + p.second * 4);
 	if (maze[p].walls.test(micromouse::WALL_LEFT)) {
-		addch(DISPLAY_VERTICAL);
+		addch(ACS_VLINE);
 	} else {
-		addch(DISPLAY_BLANK);
+		addch(' ');
 	}
 }
 
@@ -58,9 +53,9 @@ static void draw_cell_wall_right(const micromouse::maze::position_type& p)
 	move(window_min.first + 5 + p.first * 2,
 		window_min.second + p.second * 4 + 4);
 	if (maze[p].walls.test(micromouse::WALL_RIGHT)) {
-		addch(DISPLAY_VERTICAL);
+		addch(ACS_VLINE);
 	} else {
-		addch(DISPLAY_BLANK);
+		addch(' ');
 	}
 }
 
@@ -69,13 +64,13 @@ static void draw_cell_wall_bottom(const micromouse::maze::position_type& p)
 	move(window_min.first + 6 + p.first * 2,
 		window_min.second + p.second * 4 + 1);
 	if (maze[p].walls.test(micromouse::WALL_BOTTOM)) {
-		addch(DISPLAY_HORIZONTAL);
-		addch(DISPLAY_HORIZONTAL);
-		addch(DISPLAY_HORIZONTAL);
+		addch(ACS_HLINE);
+		addch(ACS_HLINE);
+		addch(ACS_HLINE);
 	} else {
-		addch(DISPLAY_BLANK);
-		addch(DISPLAY_BLANK);
-		addch(DISPLAY_BLANK);
+		addch(' ');
+		addch(' ');
+		addch(' ');
 	}
 }
 
@@ -83,9 +78,9 @@ static void draw_cell_middle(const micromouse::maze::position_type& p)
 {
 	move(window_min.first + 5 + p.first * 2,
 		window_min.second + p.second * 4 + 1);
-	addch(DISPLAY_BLANK);
-	addch(DISPLAY_BLANK);
-	addch(DISPLAY_BLANK);
+	addch(' ');
+	addch(' ');
+	addch(' ');
 }
 
 static int cell_corner_to_character(const micromouse::cell::cross_type& c)
