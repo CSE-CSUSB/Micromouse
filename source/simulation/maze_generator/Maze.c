@@ -24,7 +24,7 @@ void generateMaze(Matrix* m, int* x, int* y)
 	
 	tunnelMaze(m, x, y);
 	
-	setFinishExplored(m, x, y);
+	setFinishExplored(m);
 	
 	for(int i = 0; i < 8; ++i)
 		tunnelMaze(m, x, y);
