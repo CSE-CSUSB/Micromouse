@@ -89,14 +89,14 @@ static int cell_corner_to_character(const micromouse::cell::cross_type& c)
 
 	s = c.to_string();
 	if (s == "0000") return ACS_BULLET;
-	else if (s == "0001") return ' '; //ACS_BULLET;//ACS_VLINE;
-	else if (s == "0010") return ' '; //ACS_BULLET;//ACS_HLINE;
+	else if (s == "0001") return ' '; 
+	else if (s == "0010") return ' ';
 	else if (s == "0011") return ACS_LLCORNER;
-	else if (s == "0100") return ' '; //ACS_BULLET;//ACS_VLINE;
+	else if (s == "0100") return ' ';
 	else if (s == "0101") return ACS_VLINE;
 	else if (s == "0110") return ACS_ULCORNER;
 	else if (s == "0111") return ACS_LTEE;
-	else if (s == "1000") return ' '; //ACS_BULLET;//ACS_HLINE;
+	else if (s == "1000") return ' ';
 	else if (s == "1001") return ACS_LRCORNER;
 	else if (s == "1010") return ACS_HLINE;
 	else if (s == "1011") return ACS_BTEE;
