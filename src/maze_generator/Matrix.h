@@ -32,7 +32,9 @@ Uint8* Matrix_get(Matrix* m, int x, int y);//Returns a pointer to the dimensions
 long int Matrix_size(Matrix* m);//returns the size of the memory allocation
 int Matrix_width(Matrix* m);//returns the width of the matrix
 int Matrix_height(Matrix* m);//returns the height of the matrix
-bool Matrix_valid(Matrix* m, int x, int y);//returns true if the x,y cordinates are below the mX and mY
+bool Matrix_valid(Matrix* m, int x, int y);//returns true if the x,y coordinates are below the mX and mY
+void Matrix_itop(Matrix* m, int* i, int* x, int* y);//convert single dimensional index to two dimensional position
+void Matrix_ptoi(Matrix* m, int* i, int* x, int* y);//convert two dimensional position to single dimensional index
 
 //helper functions
 void Matrix_mCheckPower(Matrix* m);

@@ -1,3 +1,8 @@
+/*
+This file is intended to test the Deque structure;
+not to be compiled with any other file containing  int main()
+*/
+
 #include <stdio.h>
 #include "Deque.h"
 

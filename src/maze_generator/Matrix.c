@@ -29,7 +29,7 @@ void Matrix_setDimensions(Matrix* m, int x, int y)
 	m->mSize = x * y;
 	Matrix_mCheckPower(m);
 	
-	if (m->mSize > 0)//data will only be allocated if it is of non-zero size
+	if (m->mX > 0 && m->mY > 0)//data will only be allocated if it is of non-zero size
 		m->mData = malloc(m->mSize * sizeof(char));	//In C++ this would be an opportunity to joke about "Neo" and "Matrix"
 	
 	else 
@@ -122,4 +122,25 @@ void Matrix_mCheckPower(Matrix* m)
 	}
 	m->mPow2 = false;
 	m->mPowX = 0;
+}
+
+void Matrix_itop(Matrix* m, int* i, int* x, int* y)
+{
+	if (m->mPow2)
+	{
+		*x = *i % m->mX;
+		*y = *i >> m->mPowX;
+	}
+	else 
+	{
+		*x = *i % m->mX;
+		*y = *i / m->mX;
+	}
+}
+
+void Matrix_ptoi(Matrix* m, int* i, int* x, int* y)
+{
+	if (m->mPow2)
+		*i = *x + (*y << m->mPowX);//bit shift operation instead of multiplication
+	else *i = *x + (m->mX * *y);
 }
