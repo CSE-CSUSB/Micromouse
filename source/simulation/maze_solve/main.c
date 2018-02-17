@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Queue.h"
+#include "Deque.h"
 
 void printPosIndex(PosIndex * a)
 {
@@ -11,34 +11,34 @@ int main(int argc, char* argv[])
 	PosIndex a;
 	a.x = 12; a.y = 13;
 	
-	Queue q;
-	Queue_Queue(&q);
+	Deque q;
+	Deque_Deque(&q);
 	
 	a.x = 10; a.y = 33;
-	Queue_enqueue(&q, a);
-	a = Queue_getFront(&q);
+	Deque_push_back(&q, a);
+	a = Deque_getFront(&q);
 	printPosIndex(&a);
-	printf("queue size %i\n", Queue_getSize(&q));
+	printf("Deque size %i\n", Deque_getSize(&q));
 	
 	a.x = 19; a.y = 11;
-	Queue_enqueue(&q, a);
-	a = Queue_getFront(&q);
+	Deque_push_front(&q, a);
+	a = Deque_getFront(&q);
 	printPosIndex(&a);
-	printf("queue size %i\n", Queue_getSize(&q));
+	printf("Deque size %i\n", Deque_getSize(&q));
 	
-	Queue_dequeue(&q);
-	a = Queue_getFront(&q);
+	Deque_pop_front(&q);
+	a = Deque_getFront(&q);
 	printPosIndex(&a);
-	printf("queue size %i\n", Queue_getSize(&q));
+	printf("Deque size %i\n", Deque_getSize(&q));
 	
 	
-	Queue_dequeue(&q);
-	a = Queue_getFront(&q);
+	Deque_pop_back(&q);
+	a = Deque_getFront(&q);
 	printPosIndex(&a);
-	printf("queue size %i\n", Queue_getSize(&q));
+	printf("Deque size %i\n", Deque_getSize(&q));
 
-	if (Queue_empty(&q))
-		printf("%s\n", "Queue empty");
+	if (Deque_empty(&q))
+		printf("%s\n", "Deque empty");
 	
 	return 0;
 }

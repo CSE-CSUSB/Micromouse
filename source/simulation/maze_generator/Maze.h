@@ -16,14 +16,11 @@ typedef enum {
 	kEast = 0x02,
 	kSouth = 0x04,
 	kWest = 0x08,
-	kExplored = 0x10,
-	/*
-	3 more numbers were mentioned, allowing faster solving of the maze,
-	but I did not pay enough attention at the meetings
-	*/
-	//kMagic1 = 0x20,
-	//kMagic2 = 0x40,
-	//kMagic3 = 0x80,
+	kNorthExplored = 0x10,
+	kEastExplored = 0x20,
+	kSouthExplored = 0x40,
+	kWestExplored = 0x80,
+	kExplored = 0xF0, //kExplored = kNorthExplored | kEastExplored | etc...
 }Tile;
 
 //randomly generate a maze which follows the rule CAMM2017 2.3
