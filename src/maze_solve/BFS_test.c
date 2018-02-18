@@ -38,11 +38,11 @@ int main()
 		BFS bfs;
 		BFS_BFS(&bfs, &tempmaze, sx, sy, goalx, goaly);
 		Deque tempdeque = BFS_solve(&bfs);
-		BFS_printPath(tempdeque);
+		BFS_printPath(&tempdeque);//the tempdeque is freed even when passed by value
+		printf("DONE%c", '\n');
 		
 		//free memory
 		free(filename);
-		Deque_clear(&tempdeque);
 		Matrix_clear(&tempmaze);
 	}
 	

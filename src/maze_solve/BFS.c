@@ -145,11 +145,11 @@ Deque BFS_getPath(BFS* bfs)
 	return solution;
 }
 
-void BFS_printPath(Deque q)
+void BFS_printPath(Deque* q)
 {
-	while(!Deque_empty(&q))
+	while(!Deque_empty(q))
 	{
-		printPosIndex(&(q.mFront->data));
-		Deque_pop_front(&q);
+		printPosIndex(&(q->mFront->data));
+		Deque_pop_front(q);
 	}
 }

@@ -301,13 +301,21 @@ void tunnelMaze(Matrix* m, int* x, int* y)
 
 void drawMaze(Matrix* m, int* x, int* y)
 {
+#ifdef _WIN32
 	char vWall = '\xBA';//decimal 186 ║
 	char hWall[] = {'\xCD','\xCD','\xCD','\0'};//decimal 205 ═, put three in a row
 	char cross = '\xCE';//decimal 206 ╬
 	char space = ' ';
 	char space3[] ={' ',' ',' ','\0'};
 	char start[] = {' ','x',' ','\0'};
-	
+#else	//most other OSes give weird symbols
+	char vWall = '|';
+	char hWall[] = {'-','-','-','\0'};
+	char cross = '+';
+	char space = ' ';
+	char space3[] ={' ',' ',' ','\0'};
+	char start[] = {' ','x',' ','\0'};
+#endif
 	/*
 	since the function is drawing in text, it must be read horizontally first, line by line, left to right.
 	a nested loop will do the trick, where x is the inner loop, y is the outer loop.
@@ -369,7 +377,7 @@ void drawMaze(Matrix* m, int* x, int* y)
 		else if(Matrix_valid(m, i, k)
 			&& *Matrix_get(m, i, k - 1) & (kSouth | kWest))
 			printf("%c", cross);
-		else printf("%c", space3);
+		else printf("%s", space3);
 		
 		//if there is a south wall, draw a horizontal wall
 		if (*Matrix_get(m,i,k) & kSouth)

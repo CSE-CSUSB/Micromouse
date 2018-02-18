@@ -3,6 +3,7 @@
 
 #include "Matrix.h"
 #include <stdlib.h>//srand and rand
+#include <stdio.h>//printf
 
 /*
 Note that the origin of this maze coordinate system is such

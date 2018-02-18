@@ -3,6 +3,7 @@
 
 #include <stdlib.h>//#define NULL and malloc
 #include <stdbool.h>//type definition for bool
+#include <stdio.h>
 
 //the position index will be the index representing a square on the maze
 //for example, {0,0} will be the top-leftmost square in the maze

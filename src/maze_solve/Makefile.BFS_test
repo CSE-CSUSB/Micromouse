@@ -9,10 +9,7 @@ OBJS=$(SRCS:.c=.o)
 
 #Macros are optional, eg make -f Makefile.BFS_test MCRO="-D LINUX"
 
-$(EXEC): $(OBJS)
-	gcc -o $@ $(OBJS) $(MCRO)
-$(OBJS):
-	g++ -c $*.c $(MCRO)
-
+$(EXEC):
+	gcc -o $@ $(SRCS) $(MCRO)
 clean:
-	rm $(OBJS)
+	rm *.o $(EXEC)

@@ -26,6 +26,6 @@ void BFS_step(BFS * bfs);//helper function, explore children of a parent positio
 bool BFS_checkSolve(BFS* bfs);//return whether the goal has been explored
 Deque BFS_getPath(BFS* bfs);//helper function, return the path based on dictionary
 
-void BFS_printPath(Deque q);
+void BFS_printPath(Deque* q);
 
 #endif
