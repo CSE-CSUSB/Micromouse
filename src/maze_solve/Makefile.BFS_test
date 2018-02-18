@@ -1,0 +1,18 @@
+#Makefile for BFS_test
+
+#Executable name
+EXEC=BFS_test
+#Source files
+SRCS=BFS_test.c BFS.c Deque.c ../maze_generator/Maze.c ../maze_generator/Matrix.c ../maze_generator/CMF_adapter.c
+#Create object files from sources
+OBJS=$(SRCS:.c=.o)
+
+#Macros are optional, eg make -f Makefile.BFS_test MCRO="-D LINUX"
+
+$(EXEC): $(OBJS)
+	gcc -o $@ $(OBJS) $(MCRO)
+$(OBJS):
+	g++ -c $*.c $(MCRO)
+
+clean:
+	rm $(OBJS)

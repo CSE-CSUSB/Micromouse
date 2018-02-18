@@ -5,6 +5,11 @@ bool comparePosIndex(PosIndex a, PosIndex b)
 	return ((a.x == b.x) && (a.y == b.y));
 }
 
+void printPosIndex(PosIndex * a)
+{
+	printf("( %i , %i )", a->x, a->y);
+}
+
 void Deque_Deque(Deque * q)
 {
 	q->mFront = NULL;
@@ -153,3 +158,4 @@ bool Deque_empty(Deque* q)
 {
 	return (q->mFront == NULL);
 }
+

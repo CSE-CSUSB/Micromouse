@@ -6,11 +6,6 @@ not to be compiled with any other file containing  int main()
 #include <stdio.h>
 #include "Deque.h"
 
-void printPosIndex(PosIndex * a)
-{
-	printf("( %i , %i )\n", a->x, a->y);
-}
-
 int main(int argc, char* argv[])
 {
 	PosIndex a;

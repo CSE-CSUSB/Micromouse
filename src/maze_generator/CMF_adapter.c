@@ -6,8 +6,7 @@ void export(Matrix *m, char *fname, int* sx, int* sy)
 	cmf = fopen(fname,"w+");
 	int filesize = Matrix_size(m);
 	
-	//cmf has 4 parts, size, start, goal, and tuples
-	//size
+	//CMF has 4 parts, size, start, goal, and tuples
 	//size
 	fprintf(cmf,"%d", filesize);
 	fprintf(cmf,"%c",' ');
@@ -59,7 +58,6 @@ void import(Matrix *m, char *fname, int* sx, int* sy)
 	//CMF has 4 parts, size, start, goal, and tuples
 	//size
 	fscanf(cmf,"%d ", &filesize);
-	//fscanf(cmf,"%c",' ');
 	
 	
 	//CMF 1.0: size = width * height, width = height
@@ -87,20 +85,14 @@ void import(Matrix *m, char *fname, int* sx, int* sy)
 	//start
 	fscanf(cmf, "%d ", &start);
 	Matrix_itop(m, &start, sx, sy);//convert start index to position (sx, sy)
-	//fprintf(cmf,"%c",' ');
 	
 	//goal, ignored
 	fscanf(cmf, "%d ", &ignore);
 	
 	//tuples
 	for (int i = 0, j = Matrix_height(m); i < j; ++i)
-	{
 		for (int k = 0, l = Matrix_width(m); k < l; ++k)
-		{
 			fscanf(cmf, "%d", (int*)Matrix_get(m,k,i));//casting Uint8* to int*
-			//fprintf(cmf,"%c",' ');			
-		}
-	}
 		
 	//done	
 	fclose(cmf);

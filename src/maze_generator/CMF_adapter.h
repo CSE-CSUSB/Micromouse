@@ -11,7 +11,6 @@
 void export(Matrix *m, char *fname, int* sx, int* sy);
 
 //import: CMF to maze
-//export: maze to CMF
 void import(Matrix *m, char *fname, int* sx, int* sy);
 
 #endif

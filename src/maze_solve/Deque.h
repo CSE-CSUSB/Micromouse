@@ -13,6 +13,7 @@ typedef struct _PosIndex
 } PosIndex;
 
 bool comparePosIndex(PosIndex a, PosIndex b);
+void printPosIndex(PosIndex * a);
 
 //the definition for the node, which will contain
 //Since the Queue structure will be doubly linked list, the node will have a previous and a next pointer
