@@ -147,9 +147,10 @@ Deque BFS_getPath(BFS* bfs)
 
 void BFS_printPath(Deque* q)
 {
-	while(!Deque_empty(q))
+	PosNode* tempNode = q->mFront;//start at the front
+	while(tempNode)//tempNode is non-NULL
 	{
-		printPosIndex(&(q->mFront->data));
-		Deque_pop_front(q);
+		printPosIndex(&tempNode->data);
+		tempNode = tempNode->next;//advance to the next link
 	}
 }
